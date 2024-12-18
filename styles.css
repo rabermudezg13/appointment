@@ -147,3 +147,41 @@ button:hover {
     margin-left: 15px;
     border-left: 4px solid #3498db;
 }
+
+/* Agregar al archivo CSS existente */
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.sms-btn {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+}
+
+.sms-btn:hover {
+    background-color: #27ae60;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    flex: 1;
+}
+
+.appointment-card {
+    /* ... estilos existentes ... */
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.appointment-card button {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+}
