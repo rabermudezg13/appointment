@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const service = document.getElementById('service').value;
 
         // Validar teléfono
-        if (phone.length !== 10) {
-            alert('Por favor ingrese un número telefónico válido de 10 dígitos');
-            return;
-        }
+        //if (phone.length !== 10) {
+            //alert('Por favor ingrese un número telefónico válido de 10 dígitos');
+           // return;
+        //}
 
         // Validar que la fecha no sea anterior a hoy
         if (date < today) {
