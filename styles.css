@@ -185,3 +185,9 @@ button:hover {
     font-size: 0.9rem;
     padding: 8px 15px;
 }
+.no-appointments {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    font-style: italic;
+}
