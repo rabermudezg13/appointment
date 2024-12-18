@@ -86,12 +86,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function formatDate(dateString) {
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString('es-ES', options);
+        // Corregir el problema de la zona horaria
+        const date = new Date(dateString + 'T00:00:00');
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'UTC'  // Esto es importante para mantener la fecha correcta
+        };
+        return date.toLocaleDateString('es-ES', options);
     }
 
     function formatTime(timeString) {
-        return timeString;
+        // Formatear la hora en formato 12 horas
+        const [hours, minutes] = timeString.split(':');
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12;
+        return `${hour12}:${minutes} ${ampm}`;
     }
 
     // Función global para eliminar citas
