@@ -132,3 +132,18 @@ button:hover {
         padding: 1rem;
     }
 }
+
+/* Agregar al final de tu archivo styles.css */
+.date-header {
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    margin: 20px 0 10px 0;
+    border-radius: 5px;
+    text-transform: capitalize;
+}
+
+.appointment-card {
+    margin-left: 15px;
+    border-left: 4px solid #3498db;
+}
