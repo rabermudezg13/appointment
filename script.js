@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             💇‍♀️ Servicio: ${appointment.service}
 
             ¡Te esperamos!
-            Salón de Belleza
+            Ludy Hair Studio
             📍 14009 sw 88th street 
                 Suite 24
             📞 3053397512`;
