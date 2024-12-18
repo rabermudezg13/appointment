@@ -57,7 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const card = document.createElement('div');
             card.className = 'appointment-card';
             
-            const smsText = `Hola ${appointment.name}, confirmamos tu cita para el ${appointment.date} a las ${appointment.time} para ${appointment.service} nuestra direccion es 14009 sw 88th street Suite 24, te espero`;
+            const smsText = `¡Hola ${appointment.name}! 
+
+            Confirmación de tu cita:
+            📅 Fecha: ${appointment.date}
+            ⏰ Hora: ${appointment.time}
+            💇‍♀️ Servicio: ${appointment.service}
+
+            ¡Te esperamos!
+            Salón de Belleza
+            📍 14009 sw 88th street Suite 24
+            📞 3053397512`;
             
             card.innerHTML = `
                 <h3>${appointment.name}</h3>
