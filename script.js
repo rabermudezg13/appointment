@@ -66,7 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             ¡Te esperamos!
             Salón de Belleza
-            📍 14009 sw 88th street Suite 24
+            📍 14009 sw 88th street 
+                Suite 24
             📞 3053397512`;
             
             card.innerHTML = `
