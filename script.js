@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Obtener valores del formulario
         const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
         const email = document.getElementById('email').value;
         const date = document.getElementById('date').value;
         const time = document.getElementById('time').value;
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const appointment = {
             id: Date.now(),
             name,
+            phone,
             email,
             date,
             time,
@@ -72,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             appointmentCard.className = 'appointment-card';
             appointmentCard.innerHTML = `
                 <h3>${appointment.name}</h3>
+                <p><strong>Teléfono:</strong> ${appointment.phone}</p>
                 <p><strong>Email:</strong> ${appointment.email}</p>
                 <p><strong>Fecha:</strong> ${formatDate(appointment.date)}</p>
                 <p><strong>Hora:</strong> ${formatTime(appointment.time)}</p>
@@ -100,4 +103,10 @@ document.addEventListener('DOMContentLoaded', function() {
             loadAppointments();
         }
     }
+
+    // Formatear número telefónico mientras se escribe
+    document.getElementById('phone').addEventListener('input', function(e) {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : !x[3] ? x[1] + '-' + x[2] : x[1] + '-' + x[2] + '-' + x[3];
+    });
 });
