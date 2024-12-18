@@ -1,55 +1,125 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda de Citas - Salón de Belleza</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Agenda tu Cita</h1>
+document.addEventListener('DOMContentLoaded', function() {
+    const appointmentForm = document.getElementById('appointmentForm');
+    const appointmentsList = document.getElementById('appointmentsList');
+    
+    // Establecer fecha mínima como hoy
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').min = today;
+
+    // Cargar citas guardadas
+    loadAppointments();
+
+    appointmentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        <form id="appointmentForm">
-            <div class="form-group">
-                <label for="name">Nombre del Cliente:</label>
-                <input type="text" id="name" required placeholder="Ingrese el nombre completo">
-            </div>
+        // Obtener valores del formulario
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        const service = document.getElementById('service').value;
 
-            <div class="form-group">
-                <label for="email">Correo Electrónico:</label>
-                <input type="email" id="email" required placeholder="ejemplo@correo.com">
-            </div>
+        // Validar que la fecha no sea anterior a hoy
+        if (date < today) {
+            alert('Por favor seleccione una fecha válida');
+            return;
+        }
 
-            <div class="form-group">
-                <label for="date">Fecha:</label>
-                <input type="date" id="date" required>
-            </div>
+        // Crear objeto de cita
+        const appointment = {
+            id: Date.now(),
+            name,
+            phone,
+            email,
+            date,
+            time,
+            service
+        };
 
-            <div class="form-group">
-                <label for="time">Hora:</label>
-                <input type="time" id="time" required>
-            </div>
+        // Guardar cita
+        saveAppointment(appointment);
+        
+        // Limpiar formulario
+        appointmentForm.reset();
+        
+        // Mostrar mensaje de éxito
+        alert('¡Cita agendada con éxito!');
+        
+        // Recargar lista de citas
+        loadAppointments();
+    });
 
-            <div class="form-group">
-                <label for="service">Servicio:</label>
-                <select id="service" required>
-                    <option value="">Seleccione un servicio</option>
-                    <option value="Corte">Corte</option>
-                    <option value="Secado">Secado</option>
-                    <option value="Balayage">Balayage</option>
-                    <option value="Color">Color</option>
-                </select>
-            </div>
+    function saveAppointment(appointment) {
+        let appointments = getAppointments();
+        appointments.push(appointment);
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+    }
 
-            <button type="submit">Agendar Cita</button>
-        </form>
+    function getAppointments() {
+        return JSON.parse(localStorage.getItem('appointments') || '[]');
+    }
 
-        <div class="appointments">
-            <h2>Citas Agendadas</h2>
-            <div id="appointmentsList"></div>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    function loadAppointments() {
+        const appointments = getAppointments();
+        appointmentsList.innerHTML = '';
+
+        // Ordenar citas por fecha y hora
+        appointments.sort((a, b) => {
+            return new Date(a.date + 'T' + a.time) - new Date(b.date + 'T' + b.time);
+        });
+
+        appointments.forEach(appointment => {
+            const appointmentCard = document.createElement('div');
+            appointmentCard.className = 'appointment-card';
+            appointmentCard.innerHTML = `
+                <h3>${appointment.name}</h3>
+                <p><strong>Teléfono:</strong> ${appointment.phone}</p>
+                <p><strong>Email:</strong> ${appointment.email}</p>
+                <p><strong>Fecha:</strong> ${formatDate(appointment.date)}</p>
+                <p><strong>Hora:</strong> ${formatTime(appointment.time)}</p>
+                <p><strong>Servicio:</strong> ${appointment.service}</p>
+                <button class="delete-btn" onclick="deleteAppointment(${appointment.id})">Cancelar Cita</button>
+            `;
+            appointmentsList.appendChild(appointmentCard);
+        });
+    }
+
+    function formatDate(dateString) {
+        // Corregir el problema de la zona horaria
+        const date = new Date(dateString + 'T00:00:00');
+        const options = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'UTC'  // Esto es importante para mantener la fecha correcta
+        };
+        return date.toLocaleDateString('es-ES', options);
+    }
+
+    function formatTime(timeString) {
+        // Formatear la hora en formato 12 horas
+        const [hours, minutes] = timeString.split(':');
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12;
+        return `${hour12}:${minutes} ${ampm}`;
+    }
+
+    // Función global para eliminar citas
+    window.deleteAppointment = function(id) {
+        if (confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+            let appointments = getAppointments();
+            appointments = appointments.filter(appointment => appointment.id !== id);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            loadAppointments();
+        }
+    }
+
+    // Formatear número telefónico mientras se escribe
+    document.getElementById('phone').addEventListener('input', function(e) {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : !x[3] ? x[1] + '-' + x[2] : x[1] + '-' + x[2] + '-' + x[3];
+    });
+});
