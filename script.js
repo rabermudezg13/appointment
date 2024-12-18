@@ -1,10 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     const appointmentForm = document.getElementById('appointmentForm');
     const appointmentsList = document.getElementById('appointmentsList');
+    const phoneInput = document.getElementById('phone');
     
     // Establecer fecha mínima como hoy
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('date').min = today;
+
+    // Validación de solo números en el campo de teléfono
+    phoneInput.addEventListener('input', function(e) {
+        // Eliminar cualquier caracter que no sea número
+        this.value = this.value.replace(/\D/g, '');
+    });
 
     // Cargar citas guardadas
     loadAppointments();
@@ -14,17 +21,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Obtener valores del formulario
         const name = document.getElementById('name').value;
-        const phone = document.getElementById('phone').value.replace(/\D/g, ''); // Eliminar no números
+        const phone = document.getElementById('phone').value;
         const email = document.getElementById('email').value;
         const date = document.getElementById('date').value;
         const time = document.getElementById('time').value;
         const service = document.getElementById('service').value;
 
         // Validar teléfono
-        //if (phone.length !== 10) {
-            //alert('Por favor ingrese un número telefónico válido de 10 dígitos');
-           // return;
-        //}
+        if (phone.length !== 10) {
+            alert('El número telefónico debe tener 10 dígitos');
+            return;
+        }
 
         // Validar que la fecha no sea anterior a hoy
         if (date < today) {
@@ -130,7 +137,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function formatPhoneNumber(phoneNumber) {
-        const cleaned = phoneNumber.replace(/\D/g, '');
+        // Asegurarse de que phoneNumber sea un string
+        const cleaned = String(phoneNumber).replace(/\D/g, '');
         const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
         if (match) {
             return `${match[1]}-${match[2]}-${match[3]}`;
