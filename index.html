@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Citas - Salón de Belleza</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Agenda tu Cita</h1>
+        
+        <form id="appointmentForm">
+            <div class="form-group">
+                <label for="name">Nombre del Cliente:</label>
+                <input type="text" id="name" required placeholder="Ingrese el nombre completo">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" required placeholder="ejemplo@correo.com">
+            </div>
+
+            <div class="form-group">
+                <label for="date">Fecha:</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Hora:</label>
+                <input type="time" id="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="service">Servicio:</label>
+                <select id="service" required>
+                    <option value="">Seleccione un servicio</option>
+                    <option value="Corte">Corte</option>
+                    <option value="Secado">Secado</option>
+                    <option value="Balayage">Balayage</option>
+                    <option value="Color">Color</option>
+                </select>
+            </div>
+
+            <button type="submit">Agendar Cita</button>
+        </form>
+
+        <div class="appointments">
+            <h2>Citas Agendadas</h2>
+            <div id="appointmentsList"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
